@@ -1,9 +1,9 @@
 var generateBtn = document.querySelector("#generate");
-var passwordCriteria = {
-  lowercaseCharacters: "abcdefghijklmnopqrstuvwxyz".split(""),
-  uppercaseCharacters: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""),
-  numericTypes: "123456789".split(""),
-  specialTypes: [
+var pwdCriteria = {
+  lowercaseChar: "abcdefghijklmnopqrstuvwxyz".split(""),
+  uppercaseChar: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""),
+  numTypes: "123456789".split(""),
+  specTypes: [
     " ",
     '"',
     "'",
@@ -38,46 +38,15 @@ var passwordCriteria = {
     "~",
   ],
 };
-var passwordLength = 0;
-var lowercase = true;
-var uppercase = true;
-var numericTypes = true;
-var specialTypes = true;
-
-const randomFunction = {
-  special: getRandomSpecial,
-  upper: getRandomUppercase,
-  lower: getRandomLowercase,
-  number: getRandomNumeric,
-};
-
-function getRandomLowercase() {
-  return passwordCriteria.lowercaseCharacters[
-    Math.floor(Math.random() * passwordCriteria.lowercaseCharacters.length)
-  ];
-}
-
-function getRandomUppercase() {
-  return passwordCriteria.uppercaseCharacters[
-    Math.floor(Math.random() * passwordCriteria.uppercaseCharacters.length)
-  ];
-}
-
-function getRandomNumeric() {
-  return passwordCriteria.numericTypes[
-    Math.floor(Math.random() * passwordCriteria.numericTypes.length)
-  ];
-}
-
-function getRandomSpecial() {
-  return passwordCriteria.specialTypes[
-    Math.floor(Math.random() * passwordCriteria.specialTypes.length)
-  ];
-}
 
 // --------------------------------------------
 
 function writePassword() {
+  // passwordText.value = password;
+  // var password = generatePassword();
+  // var passwordText = document.querySelector("#password");
+  var totalChar = [];
+  var generatedPwd = "";
   var chooseLength = prompt(
     "Choose a password length. Pick number between 8 and 128 to determine final character length."
   );
@@ -95,47 +64,46 @@ function writePassword() {
 
   pwConfirms();
 
-  if (lowercase === false && uppercase === false && numericTypes === false && specialTypes === false) {
-    alert("You must select at least oneof the folloeing: lowercase, uppercase, number or special characters");
-    pwConfirms();
+  if (lowercase === true) {
+    Array.prototype.push.apply(totalChar, pwdCriteria.lowercaseChar);
   }
-  
-    if (lowercase === true && passwordCriteria.passwordLength < chooseLength) {
-      console.log("yay");
-    } else {
-      console.log("nah");
+
+  if (uppercase === true) {
+    Array.prototype.push.apply(totalChar, pwdCriteria.uppercaseChar);
+  }
+
+  if (numeric === true) {
+    Array.prototype.push.apply(totalChar, pwdCriteria.numTypes);
+  }
+
+  if (special === true) {
+    Array.prototype.push.apply(totalChar, pwdCriteria.specTypes);
+  }
+
+  if (
+    lowercase === false &&
+    uppercase === false &&
+    numericTypes === false &&
+    specialTypes === false
+  ) {
+    alert(
+      "You must select at least oneof the following: lowercase, uppercase, number or special characters"
+    );
+    pwConfirms();
+  } else {
+    for (let index = 0; index < chooseLength; index++) {
+      var random = Math.floor(Math.random() * totalChar.length);
+      generatedPwd += totalChar[random];
     }
-
-    if (uppercase === true) {
-      console.log("yay");
-    } else {
-      console.log("nah");
-    }
-
-    if (numericTypes === true) {
-      console.log("yay");
-    } else {
-      console.log("nah");
-    }
-
-    if (specialTypes === true) {
-      console.log("yay");
-    } else {
-      console.log("nah");
-    }
-
-  
-
-  passwordText.value = password;
-  var password = generatePassword();
-  var passwordText = document.querySelector("#password");
+  }
+  function pwConfirms() {
+    lowercase = confirm("Do you wish to include lowercase types?");
+    uppercase = confirm("Do you wish to include uppercase types?");
+    numeric = confirm("Do you wish to add numbers?");
+    special = confirm("Do you wish to include special types?");
+  }
+  document.getElementById("password").innerHTML = generatedPwd;
 }
 
-function pwConfirms() {
-  lowercase = confirm("Do you wish to include lowercase types?");
-  uppercase = confirm("Do you wish to include lowercase types?");
-  numericTypes = confirm("Do you wish to add numbers?");
-  specialTypes = confirm("Do you wish to include special types?");
-}
 // Add event listener to generate button
-generateBtn.addEventListener("click", writePassword)
+generateBtn.addEventListener("click", writePassword);
