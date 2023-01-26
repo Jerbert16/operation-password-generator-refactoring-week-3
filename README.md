@@ -1,4 +1,4 @@
-# Operation Password Generator Refraction README
+# Operation Password Generator Refactoring README
 
 ## Project Description:
 
