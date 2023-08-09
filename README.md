@@ -35,6 +35,6 @@ THEN the password is either displayed in an alert or written to the page
 ```
 ## Deployed Application:
 
-https://jerbert16.github.io/operation-password-generator-refraction-week3/
+https://jerbert16.github.io/operation-password-generator-refactoring-week-3/
 
 ![Screenshot](./Assets/03-javascript-homework-demo.png)
